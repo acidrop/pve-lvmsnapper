@@ -1,7 +1,7 @@
 #!/bin/bash
 
 KEEP_DAYS=3
-VG="vg_drbd" # LVM volume group we are snapshoting
+VG="drbdpool" # LVM volume group we are snapshoting
 BACKUP_PREFIX="snap-" # Prefix of snapshot volume name.
 
 
