@@ -11,13 +11,15 @@ TODAY="$(date +%F)"
 
 
 # Clean old snapshots.
-lvs -o lv_name --noheadings | sed -n "s@$BACKUP_PREFIX$LV-@@p" | while read DATE; do
-    TS_DATE=$(date -d "$DATE" +%s)
-    TS_NOW=$(date +%s)
-    AGE=$(( (TS_NOW - TS_DATE) / 86400))
+lvs -o lv_name --noheadings | sed -n "s@$BACKUP_PREFIX@@p" > /tmp/002
+for LV in $(cat /tmp/001);do sed -n "s@$LV-@@p" /tmp/002 ;done > /tmp/003
+cat /tmp/003 | while read DATE; do
+      TS_DATE=$(date -d "$DATE" +%s)
+      TS_NOW=$(date +%s)
+      AGE=$(( (TS_NOW - TS_DATE) / 86400))
     if [ "$AGE" -ge "$KEEP_DAYS" ]; then
-        VOLNAME="$BACKUP_PREFIX$LV-$DATE" 
-        /sbin/lvremove -f "$VG/$VOLNAME" 
+      echo $DATE > /tmp/004
     fi
 done
+for LV in $(cat /tmp/001);do lvremove -f $VG/$BACKUP_PREFIX$LV-$(cat /tmp/004);done
 
