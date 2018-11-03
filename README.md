@@ -1,4 +1,4 @@
-==Simple bash script for automating snapshots of LVM Thin volumes (VM) in Proxmox VE.
+# Simple bash script for automating snapshots of LVM Thin volumes (VM) in Proxmox VE.
 
 This can be useful in situations where the VM experiences a disk or filesystem corruption and the only option left is to rollback to a previous version of the VM disk.
 Note that, as the snapshots are generated at the LVM level (not QEMU), the consistency of the data inside the virtual machine
